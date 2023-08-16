@@ -3,21 +3,22 @@ package com.pedromiranda.transportadoraapi.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="motorista")
+@Table(name = "motorista")
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @JsonDeserialize
 @JsonSerialize
-public class Motorista {
+@Getter
+@Setter
+public class Motorista implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -32,20 +33,20 @@ public class Motorista {
     @Column
     private String endereco;
 
-    @Column
-    private Long caminhao_id;
+//    @Column
+//    private Caminhao caminhao;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Motorista)) return false;
         Motorista motorista = (Motorista) o;
-        return Objects.equals(getId(), motorista.getId()) && Objects.equals(getPrimeiro(), motorista.getPrimeiro()) && Objects.equals(getSobrenome(), motorista.getSobrenome()) && Objects.equals(getEndereco(), motorista.getEndereco()) && Objects.equals(getCaminhao_id(), motorista.getCaminhao_id());
+        return getId().equals(motorista.getId()) && Objects.equals(getPrimeiro(), motorista.getPrimeiro()) && Objects.equals(getSobrenome(), motorista.getSobrenome()) && Objects.equals(getEndereco(), motorista.getEndereco());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPrimeiro(), getSobrenome(), getEndereco(), getCaminhao_id());
+        return Objects.hash(getId(), getPrimeiro(), getSobrenome(), getEndereco());
     }
 
     @Override
@@ -55,7 +56,7 @@ public class Motorista {
                 ", primeiro='" + primeiro + '\'' +
                 ", sobrenome='" + sobrenome + '\'' +
                 ", endereco='" + endereco + '\'' +
-                ", caminhao_id=" + caminhao_id +
+//                ", caminhao=" + caminhao +
                 '}';
     }
 }

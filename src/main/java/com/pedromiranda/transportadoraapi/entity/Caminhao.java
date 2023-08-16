@@ -4,20 +4,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="caminhao")
+@Table(name = "caminhao")
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @JsonDeserialize
 @JsonSerialize
-public class Caminhao {
+@Getter
+@Setter
+public class Caminhao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -32,17 +37,24 @@ public class Caminhao {
     @Column
     private String placa;
 
+    @OneToMany(targetEntity = Motorista.class)
+    private Set<Motorista> motoristas;
+
+    public void vinculaMotorista(Motorista moto){
+        this.motoristas.add(moto);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Caminhao)) return false;
         Caminhao caminhao = (Caminhao) o;
-        return getId().equals(caminhao.getId()) && Objects.equals(getMarca(), caminhao.getMarca()) && Objects.equals(getModelo(), caminhao.getModelo()) && Objects.equals(getPlaca(), caminhao.getPlaca());
+        return Objects.equals(marca, caminhao.marca) && Objects.equals(modelo, caminhao.modelo) && Objects.equals(placa, caminhao.placa);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getMarca(), getModelo(), getPlaca());
+        return Objects.hash(marca, modelo, placa);
     }
 
     @Override
@@ -52,6 +64,7 @@ public class Caminhao {
                 ", marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", placa='" + placa + '\'' +
+                ", motoristas='" + motoristas + '\'' +
                 '}';
     }
 }
