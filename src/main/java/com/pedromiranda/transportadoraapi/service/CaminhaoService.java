@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Component
@@ -21,7 +20,7 @@ public class CaminhaoService {
         return repository.findAll();
     }
 
-    public java.util.Optional<Caminhao> getCaminhao(Long id){
+    public java.util.Optional<Caminhao> getCaminhao(Long id) {
         return repository.findById(id);
     }
 

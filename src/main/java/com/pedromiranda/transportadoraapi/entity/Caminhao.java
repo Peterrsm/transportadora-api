@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class Caminhao implements Serializable {
     private String placa;
 
     @OneToMany(targetEntity = Motorista.class)
-    private Set<Motorista> motoristas;
+    private Set<Motorista> motoristas = new HashSet<>();
 
     public void vinculaMotorista(Motorista moto){
         this.motoristas.add(moto);
