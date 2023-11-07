@@ -2,6 +2,7 @@ package com.pedromiranda.transportadoraapi.service;
 
 import com.pedromiranda.transportadoraapi.entity.Caminhao;
 import com.pedromiranda.transportadoraapi.repository.CaminhaoRepository;
+import com.pedromiranda.transportadoraapi.service.exceptions.CaminhaoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class CaminhaoService {
     }
 
     public java.util.Optional<Caminhao> getCaminhao(Long id) {
+        if (repository.findById(id).isEmpty())
+            throw new CaminhaoNotFoundException(id);
+
         return repository.findById(id);
     }
 
