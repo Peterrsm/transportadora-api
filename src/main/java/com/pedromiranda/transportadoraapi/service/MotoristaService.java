@@ -2,6 +2,7 @@ package com.pedromiranda.transportadoraapi.service;
 
 import com.pedromiranda.transportadoraapi.entity.Motorista;
 import com.pedromiranda.transportadoraapi.repository.MotoristaRepository;
+import com.pedromiranda.transportadoraapi.service.exceptions.MotoristaNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class MotoristaService {
     }
 
     public java.util.Optional<Motorista> getMotoristaById(Long id) {
+        if (repository.findById(id).isEmpty())
+            throw new MotoristaNotFoundException();
         return repository.findById(id);
     }
 
