@@ -1,18 +1,19 @@
 package com.pedromiranda.transportadoraapi.stubs;
 
 import com.pedromiranda.transportadoraapi.entity.Caminhao;
+import com.pedromiranda.transportadoraapi.request.CaminhaoRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CaminhaoStub {
 
-    public Caminhao initiateCaminhao(){
+    public Caminhao initiateCaminhao() {
         return createCaminhao();
     }
 
-    public List<Caminhao> createListOfCaminhoes(){
-        List<Caminhao> lista= new ArrayList<>();
+    public List<Caminhao> createListOfCaminhoes() {
+        List<Caminhao> lista = new ArrayList<>();
         lista.add(createCaminhao());
         lista.add(createCaminhao());
         lista.add(createCaminhao());
@@ -20,7 +21,7 @@ public class CaminhaoStub {
         return lista;
     }
 
-    private Caminhao createCaminhao(){
+    public Caminhao createCaminhao() {
         Caminhao caminhao = new Caminhao();
         caminhao.setId(42l);
         caminhao.setMarca("MarcaStub");
@@ -28,5 +29,14 @@ public class CaminhaoStub {
         caminhao.setModelo("ModeloStub");
 
         return caminhao;
+    }
+
+    public CaminhaoRequest createCaminhaoRequest(Caminhao caminhao) {
+        CaminhaoRequest request = new CaminhaoRequest();
+        request.setMarca(caminhao.getMarca());
+        request.setModelo(caminhao.getModelo());
+        request.setPlaca(caminhao.getPlaca());
+
+        return request;
     }
 }
