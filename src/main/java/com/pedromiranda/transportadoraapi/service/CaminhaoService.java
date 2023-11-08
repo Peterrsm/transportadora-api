@@ -33,6 +33,9 @@ public class CaminhaoService {
     }
 
     public void deleteCaminhao(Long id) {
+        if (repository.findById(id).isEmpty())
+            throw new CaminhaoNotFoundException(id);
+
         repository.deleteById(id);
     }
 }
