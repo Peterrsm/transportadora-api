@@ -32,6 +32,9 @@ public class MotoristaService {
     }
 
     public void deleteMotorista(Long id) {
+        if (repository.findById(id).isEmpty())
+            throw new MotoristaNotFoundException();
+
         repository.deleteById(id);
     }
 }
