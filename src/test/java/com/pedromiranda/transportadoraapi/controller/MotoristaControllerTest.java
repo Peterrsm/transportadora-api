@@ -58,6 +58,7 @@ class MotoristaControllerTest {
     void addMotorista() {
         Motorista moto = stub.createMotorista();
         MotoristaRequest request = stub.createMotoristaRequest(moto);
+        moto.setId(null);
 
         List<Motorista> lista = new ArrayList<>();
         lista.add(moto);
@@ -66,9 +67,5 @@ class MotoristaControllerTest {
                 .thenReturn(lista);
 
         assertEquals(controller.addMotorista(request), lista);
-    }
-
-    @Test
-    void deleteMotorista() {
     }
 }

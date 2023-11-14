@@ -1,9 +1,12 @@
 package com.pedromiranda.transportadoraapi.controller;
 
 import com.pedromiranda.transportadoraapi.entity.Caminhao;
+import com.pedromiranda.transportadoraapi.entity.Motorista;
 import com.pedromiranda.transportadoraapi.request.CaminhaoRequest;
 import com.pedromiranda.transportadoraapi.service.CaminhaoService;
+import com.pedromiranda.transportadoraapi.service.MotoristaService;
 import com.pedromiranda.transportadoraapi.stubs.CaminhaoStub;
+import com.pedromiranda.transportadoraapi.stubs.MotoristaStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +33,12 @@ class CaminhaoControllerTest {
     @InjectMocks
     private CaminhaoController controller;
 
+    @Mock
+    private MotoristaService moto_service;
+
     CaminhaoStub stub = new CaminhaoStub();
+
+    MotoristaStub moto_stub = new MotoristaStub();
 
     @BeforeEach
     public void setUp() {
@@ -38,7 +46,7 @@ class CaminhaoControllerTest {
     }
 
     @Test
-    public void shouldGetAllCaminhoes() {
+    void shouldGetAllCaminhoes() {
         Caminhao caminhao1 = new Caminhao(1L, "Ford", "SEDAN", null, null);
         Caminhao caminhao2 = new Caminhao(2L, "Tesla", "HAT", null, null);
         List<Caminhao> caminhoes = Arrays.asList(caminhao1, caminhao2);
@@ -54,7 +62,7 @@ class CaminhaoControllerTest {
     }
 
     @Test
-    public void shouldGetSpecificCaminhao() {
+    void shouldGetSpecificCaminhao() {
         Caminhao caminhao = new Caminhao(2L, "Tesla", "HAT", null, null);
 
         when(service.getCaminhao(2L)).thenReturn(Optional.of(caminhao));
@@ -69,7 +77,7 @@ class CaminhaoControllerTest {
 
 
     @Test
-    public void shouldAddCaminhao() {
+    void shouldAddCaminhao() {
         Caminhao caminhao = stub.createCaminhao();
         CaminhaoRequest request = stub.createCaminhaoRequest(caminhao);
 
@@ -83,5 +91,44 @@ class CaminhaoControllerTest {
 
     }
 
+    @Test
+    void shouldReturnAllCaminhoes() {
+        Caminhao caminhao = stub.createCaminhao();
 
+        List<Caminhao> caminhoes = new ArrayList<>();
+        caminhoes.add(caminhao);
+        caminhoes.add(caminhao);
+        caminhoes.add(caminhao);
+
+        when(service.getAllCaminhoes())
+                .thenReturn(caminhoes);
+
+        assertEquals(controller.getAllCaminhoes(), caminhoes);
+    }
+
+    @Test
+    void shouldReturnCaminhaoById() {
+        Caminhao caminhao = stub.createCaminhao();
+
+        when(service.getCaminhao(10L))
+                .thenReturn(Optional.ofNullable(caminhao));
+
+        assertEquals(controller.getCaminhaoById(10L), Optional.ofNullable(caminhao));
+    }
+
+    @Test
+    void shouldAssociateMotoAndCaminhao() {
+        Caminhao caminhao = stub.createCaminhao();
+        Motorista moto = moto_stub.createMotorista();
+
+        when(moto_service.getMotoristaById(moto.getId()))
+                .thenReturn(Optional.of(moto));
+
+        when(service.getCaminhao((caminhao.getId())))
+                .thenReturn(Optional.of(caminhao));
+
+        controller.associateMotoAndCaminhao(caminhao.getId(), moto.getId());
+
+        assertEquals(caminhao.getMotoristas().size(), 1);
+    }
 }

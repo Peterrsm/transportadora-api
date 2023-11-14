@@ -3,7 +3,10 @@ package com.pedromiranda.transportadoraapi.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,7 +44,7 @@ public class Motorista implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Motorista)) return false;
         Motorista motorista = (Motorista) o;
-        return getId().equals(motorista.getId()) && Objects.equals(getPrimeiro(), motorista.getPrimeiro()) && Objects.equals(getSobrenome(), motorista.getSobrenome()) && Objects.equals(getEndereco(), motorista.getEndereco());
+        return Objects.equals(getPrimeiro(), motorista.getPrimeiro()) && Objects.equals(getSobrenome(), motorista.getSobrenome()) && Objects.equals(getEndereco(), motorista.getEndereco());
     }
 
     @Override
